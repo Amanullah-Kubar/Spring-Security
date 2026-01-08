@@ -44,7 +44,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 authorizeRequests -> authorizeRequests
                         .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/signin","/user/signup").permitAll()
+                        .requestMatchers("/user/signin","/user/signup").permitAll()
                         .anyRequest().authenticated());
 
         http.sessionManagement(
@@ -52,7 +52,7 @@ public class SecurityConfig {
                         sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.exceptionHandling(
-                exceoption -> exceoption.
+                exception -> exception.
                         authenticationEntryPoint(unauthorizedHandler));
 
         http.headers(
