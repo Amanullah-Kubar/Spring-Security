@@ -44,8 +44,12 @@ public class UserController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-
         return userServices.authenticateUser(loginRequest);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserProfile(){
+        return userServices.getUserProfile();
     }
 
 

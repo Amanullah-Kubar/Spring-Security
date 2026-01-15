@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.sql.DataSource;
@@ -95,5 +94,24 @@ public class UserServices {
 
         LoginResponse loginResponse = new LoginResponse(userDetails.getUsername(), roles, jwtToken);
         return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> getUserProfile() {
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        assert authentication != null;
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", userDetails.getUsername());
+        map.put("roles", userDetails.getAuthorities()
+                .stream()
+                .map(item ->item.getAuthority())
+                .collect(Collectors.toList())
+        );
+
+
+        return  ResponseEntity.ok(map);
     }
 }
